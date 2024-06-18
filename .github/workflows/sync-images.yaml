@@ -25,5 +25,5 @@ jobs:
     - name: Use Skopeo Tools Sync Image to Docker Hub
       run: |
         #!/usr/bin/env bash
-        skopeo copy docker://docker.io/xiaoyaliu/alist:v3.35.0 docker://nat671.yyboxdns.com:15287/alist:v3.35.0 --override-arch arm64
+        skopeo copy docker://docker.io/xiaoyaliu/alist:latest docker://nat671.yyboxdns.com:15287/alist:latest --override-arch arm64
         skopeo copy docker://docker.io/sulinggg/openwrt-mini:armv8 docker://nat671.yyboxdns.com:15287/openwrt-mini:armv8 --override-arch arm64
