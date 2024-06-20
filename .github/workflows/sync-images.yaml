@@ -17,13 +17,14 @@ jobs:
     steps:
     - name: Checkout Repos
       uses: actions/checkout@v4
-      
-    - name: Set up skopeo
-      run: |
-        skopeo --version
 
     # 使用shell命令批量同步所需的镜像到dockerHub中
     - name: Use Skopeo Tools Sync Image to Docker Hub
+      env:
+        REGISTRY_USER: ${{ secrets.REGISTRY_USER }}
+        REGISTRY_PASSWORD: ${{ secrets.REGISTRY_PASSWORD }}
       run: |
         #!/usr/bin/env bash
-        skopeo copy docker://docker.io/sulinggg/openwrt-mini:armv8 docker://nat671.yyboxdns.com:15287/openwrt-mini:armv8 --override-arch arm64 --dest-tls-verify=false
+        set -o pipefail
+        skopeo login docker.sgwbox.com:5001 -u ${REGISTRY_USER} -p ${REGISTRY_PASSWORD}
+        skopeo copy docker://docker.io/gdy666/lucky:latest docker://docker.sgwbox.com:5001/gdy666/lucky:latest --override-arch arm64 --dest-tls-verify=false
