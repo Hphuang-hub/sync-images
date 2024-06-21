@@ -30,5 +30,3 @@ jobs:
         sudo skopeo copy docker://docker.io/gngpp/xunlei:latest docker://docker.sgwbox.com:5001/gngpp/xunlei:latest --override-arch arm64 --dest-tls-verify=false
         sudo docker logout docker.sgwbox.com:5001
     
-    - name: Setup Debug Session
-      uses: csexton/debugger-action@master
