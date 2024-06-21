@@ -13,6 +13,8 @@ REGISTRY_DOMAIN=$1
 
 IMAGES="${2:-}"
 
+SCRIPTS_PATH=$(cd $(dirname "${BASH_SOURCE}") && pwd -P)
+
 skopeo_copy() {
     if skopeo copy --dest-tls-verify=false --override-arch arm64 "docker://$1" "docker://$2"; then
         echo -e "$GREEN_COL Sync $1 successful $NORMAL_COL"
@@ -24,14 +26,14 @@ skopeo_copy() {
 }
 
 sync_images() {
-    if [ ! -s ./images.list ]; then
+    if [ ! -s ${SCRIPTS_PATH}/images.list ]; then
        echo -e "$YELLOW_COL images.list is empty! $NORMAL_COL"
         return 1
     fi
     IFS=$'\n'
     CURRENT_NUM=0
     
-    IMAGES="$(cat ./images.list | sed 's|^|\^|g' | tr '\n' '|' | sed 's/|$//')"
+    IMAGES="$(cat ${SCRIPTS_PATH}/images.list | sed 's|^|\^|g' | tr '\n' '|' | sed 's/|$//')"
     TOTAL_NUMS=$(echo -e ${IMAGES} | tr ' ' '\n' | wc -l)
     for image in ${IMAGES}; do
         let CURRENT_NUM=${CURRENT_NUM}+1
