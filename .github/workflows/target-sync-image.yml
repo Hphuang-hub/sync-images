@@ -49,9 +49,7 @@ jobs:
         sudo jq '. + {"insecure-registries": ["http://docker.sgwbox.com:5001"]}' /etc/docker/daemon.json  > temp.json && sudo mv temp.json /etc/docker/daemon.json
         sudo systemctl restart docker
         sleep 3
-        docker login docker.sgwbox.com:5001 -u ${REGISTRY_USER} -p ${REGISTRY_PASSWORD}
         sudo bash ${GITHUB_WORKSPACE}/sync.sh "docker.sgwbox.com:5001" "${ORIGIN_IMAGE}"
-        docker logout docker.sgwbox.com:5001
         gh issue comment ${{ github.event.issue.number }} -b "镜像 ${ORIGIN_IMAGE} 同步完成"
         gh issue edit ${{ github.event.issue.number }} --add-label "sync image succeeded" -b "IMAGE SYNC"
         gh issue close ${{ github.event.issue.number }} --reason "completed"
