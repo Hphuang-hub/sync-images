@@ -10,6 +10,8 @@ NORMAL_COL="\\033[0;39m"
 
 REGISTRY_DOMAIN=$1
 : ${REGISTRY_DOMAIN:="docker.sgwbox.com:5001"}
+REGISTRY_USER="${REGISTRY_USER:-}"
+REGISTRY_PASSWORD="${REGISTRY_PASSWORD:-}"
 
 IMAGES="${2:-}"
 
@@ -35,6 +37,8 @@ sync_images() {
     
     IMAGES="$(cat ${SCRIPTS_PATH}/images.list | sed 's|^|\^|g' | tr '\n' '|' | sed 's/|$//')"
     TOTAL_NUMS=$(echo -e ${IMAGES} | tr ' ' '\n' | wc -l)
+
+    docker login docker.sgwbox.com:5001 -u ${REGISTRY_USER} -p ${REGISTRY_PASSWORD}
     for image in ${IMAGES}; do
         let CURRENT_NUM=${CURRENT_NUM}+1
         echo -e "$YELLOW_COL Progress: ${CURRENT_NUM}/${TOTAL_NUMS} $NORMAL_COL"
@@ -43,11 +47,14 @@ sync_images() {
 
         skopeo_copy docker.io/${name}:${tag} ${REGISTRY_DOMAIN}/${name}:${tag}
     done
+    docker logout docker.sgwbox.com:5001
     unset IFS
 }
 
 if [ $# -eq 2 ]; then
+  docker login docker.sgwbox.com:5001 -u ${REGISTRY_USER} -p ${REGISTRY_PASSWORD}
   skopeo_copy docker.io/${IMAGES} ${REGISTRY_DOMAIN}/${IMAGES}
+  docker logout docker.sgwbox.com:5001
   return 0
 fi
 
