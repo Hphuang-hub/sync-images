@@ -1,0 +1,32 @@
+name: Sync Image
+description: 同步一个镜像
+labels:
+- sync image
+body:
+- type: markdown
+  attributes:
+    value: |
+      # ↑↑↑↑↑↑↑↑↑↑↑ 填入你要同步的 Image
+      ## 请包含 路径:标签
+
+- type: checkboxes
+  attributes:
+    label: tag
+    options:
+    - label: 请确保包含镜像的标签(tag)
+- type: markdown
+  attributes:
+    value: |
+      - 如 :latest
+      - 如 :v1
+
+- type: checkboxes
+  attributes:
+    label: check
+    options:
+    - label: 请确保这个镜像真实存在
+- type: markdown
+  attributes:
+    value: |
+      - 如 library/busybox:latest
+      - 如 gdy666/lucky:latest
