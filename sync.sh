@@ -50,7 +50,7 @@ sync_images() {
 
 if [ $# -eq 2 ]; then
   skopeo_copy docker.io/${IMAGES} ${REGISTRY_DOMAIN}/${IMAGES}
-  return 0
+  exit 0
 fi
 
 sync_images
