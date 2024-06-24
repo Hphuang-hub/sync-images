@@ -49,7 +49,6 @@ jobs:
         sudo systemctl restart docker
         sleep 3
         sudo docker login docker.sgwbox.com:5001 -u ${REGISTRY_USER} -p ${REGISTRY_PASSWORD}
-        sudo skopeo copy docker://docker.io/cloudnas/clouddrive2:latest docker://docker.sgwbox.com:5001/cloudnas/clouddrive2:latest --override-arch arm64 --dest-tls-verify=false
         sudo bash ${GITHUB_WORKSPACE}/sync.sh "docker.sgwbox.com:5001" "${ORIGIN_IMAGE}"
         sudo docker logout docker.sgwbox.com:5001
         gh issue comment ${{ github.event.issue.number }} -b "镜像 ${ORIGIN_IMAGE} 同步完成"
