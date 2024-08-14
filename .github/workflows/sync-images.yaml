@@ -26,6 +26,7 @@ jobs:
         sudo systemctl restart docker
         sleep 3
         sudo docker login docker.sgwbox.com:5001 -u ${REGISTRY_USER} -p ${REGISTRY_PASSWORD}
-        sudo skopeo copy docker://ghcr.io/librespeed/speedtest:ipinfo_offlinedb docker://docker.sgwbox.com:5001/ghcr.io/librespeed/speedtest:ipinfo_offlinedb --override-arch arm64 --dest-tls-verify=false
+        #sudo skopeo copy docker://ghcr.io/librespeed/speedtest:ipinfo_offlinedb docker://docker.sgwbox.com:5001/ghcr.io/librespeed/speedtest:ipinfo_offlinedb --override-arch arm64 --dest-tls-verify=false
+        sudo skopeo copy docker://ghcr.io/librespeed/speedtest:latest docker://docker.sgwbox.com:5001/ghcr.io/librespeed/speedtest:latest --dest-tls-verify=false
         sudo docker logout docker.sgwbox.com:5001
     
